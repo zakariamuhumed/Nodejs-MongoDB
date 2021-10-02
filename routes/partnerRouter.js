@@ -31,7 +31,7 @@ partnerRouter.route('/:partnerId')
     res.end(`Post operation not supported on /partner/${req.params.partnerId}`);
 })
 .put((req, res) => {
-    res.write(`Updating the partner:${req.params.partnerId} /n`);
+    res.write(`Updating the partner:${req.params.partnerId} \n`);
     res.end(`Will update the partner:${req.body.name} with
     description:${req.body.description}`); 
 })
