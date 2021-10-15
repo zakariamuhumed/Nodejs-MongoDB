@@ -47,10 +47,9 @@ app.use('/users', usersRouter);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/campsite', campsiteRouter);
-app.use('/promotion', promotionRouter);
-app.use('/promotion/:promotionId', promotionRouter);
-app.use('/partner', partnerRouter);
+app.use('/campsites', campsiteRouter);
+app.use('/promotions', promotionRouter);
+app.use('/partners', partnerRouter);
 
 
 

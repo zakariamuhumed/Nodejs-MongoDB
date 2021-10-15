@@ -1,15 +1,15 @@
-const { response } = require('express');
 const express = require('express');
 const Campsite = require('../models/campsite');
 const authenticate = require ('../authenticate');
 
+
 const campsiteRouter = express.Router();
+
 
 campsiteRouter.route('/')
 
 .get((req, res, next) => {
     Campsite.find()
-    .populate('comments.author')
     .then(campsites => {
         res.statusCode = 200;
         res.setHeader('Content-type', 'application/json');
@@ -20,7 +20,7 @@ campsiteRouter.route('/')
 .post(authenticate.verifyUser,(req, res, next) => {
     Campsite.create(req.body)
     .then(campsite => {
-        console.log('Campsite Created', campsite)
+        console.log('campsite Created', campsite)
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(campsite);
@@ -43,15 +43,14 @@ campsiteRouter.route('/')
 
 campsiteRouter.route('/:campsiteId')
 .get((req, res, next) => {
-   Campsite.findById(req.params.campsiteId)
-   .populate('comments.author')
-    .then(campsite => {  
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(campsite);
-   })
-   .catch(err => next(err));
-})
+    Campsite.findById(req.params.campsiteId)
+     .then(campsite => {
+         res.statusCode = 200;
+         res.setHeader('Content-Type', 'application/json');
+         res.json(campsite);
+    })
+    .catch(err => next(err));
+ })
 .post(authenticate.verifyUser,(req, res) => {
     res.statusCode = 403;
     res.end(`post operation not supported on /campsites/${req.params.campsiteId}`);
@@ -85,14 +84,13 @@ campsiteRouter.route('/:campsiteId/comments')
     .then(campsite => {
         if (campsite) {
             res.statusCode = 200;
-            res.setHeader('Content-type', 'application/json');
+            res.setHeader('Content-Type', 'application/json');
             res.json(campsite.comments);
-        }else {
+        } else {
             err = new Error(`Campsite ${req.params.campsiteId} not found`);
             err.status = 404;
             return next(err);
         }
-
     })
     .catch(err => next(err));
 })
